@@ -209,7 +209,7 @@ class OktaSdkBridge: RCTEventEmitter {
             return
         }
         
-        currStateManager.accessToken = accessToken
+        currStateManager.authState.accessToken = accessToken
 
         currStateManager.writeToSecureStorage()
         let dic = [

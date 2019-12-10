@@ -187,6 +187,39 @@ class OktaSdkBridge: RCTEventEmitter {
         }
     }
     
+    @objc
+    func authenticateWithAccessToken(_ accessToken: String) {
+        guard let _ = config, let currOktaOidc = oktaOidc else {
+            let error = OktaReactNativeError.notConfigured
+            let errorDic = [
+                OktaSdkConstant.ERROR_CODE_KEY: error.errorCode,
+                OktaSdkConstant.ERROR_MSG_KEY: error.errorDescription
+            ]
+            sendEvent(withName: OktaSdkConstant.ON_ERROR, body: errorDic)
+            return
+        }
+        
+        guard let currStateManager = stateManager else {
+            let error = OktaReactNativeError.noStateManager
+            let errorDic = [
+                OktaSdkConstant.ERROR_CODE_KEY: error.errorCode,
+                OktaSdkConstant.ERROR_MSG_KEY: error.errorDescription
+            ]
+            self.sendEvent(withName: OktaSdkConstant.ON_ERROR, body: errorDic)
+            return
+        }
+        
+        currStateManager.accessToken = accessToken
+
+        currStateManager.writeToSecureStorage()
+        let dic = [
+            OktaSdkConstant.RESOLVE_TYPE_KEY: OktaSdkConstant.AUTHORIZED,
+            OktaSdkConstant.ACCESS_TOKEN_KEY: stateManager?.accessToken
+        ]
+
+        self.sendEvent(withName: OktaSdkConstant.SIGN_IN_SUCCESS, body: dic)
+    }
+    
     @objc(getAccessToken:promiseRejecter:)
     func getAccessToken(promiseResolver: @escaping RCTPromiseResolveBlock, promiseRejecter: @escaping RCTPromiseRejectBlock) {
         

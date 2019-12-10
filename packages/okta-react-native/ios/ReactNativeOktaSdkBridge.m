@@ -19,6 +19,8 @@ RCT_EXTERN_METHOD(createConfig:(NSString *)clientId redirectUrl:(NSString *)redi
 RCT_EXTERN_METHOD(signIn)
 
 RCT_EXTERN_METHOD(authenticate:(NSString *)sessionToken)
+  
+RCT_EXTERN_METHOD(authenticateWithAccessToken:(NSString *)accessToken)
 
 RCT_EXTERN_METHOD(signOut)
 

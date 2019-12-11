@@ -20,7 +20,7 @@ RCT_EXTERN_METHOD(signIn)
 
 RCT_EXTERN_METHOD(authenticate:(NSString *)sessionToken)
   
-RCT_EXTERN_METHOD(authenticateWithAccessToken:(NSString *)accessToken andExpirationDate:(NSString *)expirationDate)
+RCT_EXTERN_METHOD(authenticateWithAccessToken:(NSString *)accessToken expirationDate:(NSString *)expirationDate)
 
 RCT_EXTERN_METHOD(signOut)
 

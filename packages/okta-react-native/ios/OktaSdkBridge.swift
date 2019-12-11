@@ -188,7 +188,7 @@ class OktaSdkBridge: RCTEventEmitter {
     }
     
     @objc
-    func authenticateWithAccessToken(_ accessToken: String) {
+    func authenticateWithAccessToken(_ accessToken: String, expirationDate: String) {
         guard let _ = config, let currOktaOidc = oktaOidc else {
             let error = OktaReactNativeError.notConfigured
             let errorDic = [

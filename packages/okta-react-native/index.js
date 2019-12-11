@@ -61,8 +61,8 @@ export const authenticate = async({sessionToken}) => {
   return NativeModules.OktaSdkBridge.authenticate(sessionToken);
 }
 
-export const authenticateWithAccessToken = async({accessToken}) => {
-  return NativeModules.OktaSdkBridge.authenticateWithAccessToken(accessToken);
+export const authenticateWithAccessToken = async({accessToken, expirationDate}) => {
+  return NativeModules.OktaSdkBridge.authenticateWithAccessToken(accessToken, expirationDate);
 }
 
 export const getAccessToken = async() => {

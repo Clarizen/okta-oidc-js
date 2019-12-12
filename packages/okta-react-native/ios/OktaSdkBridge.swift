@@ -188,7 +188,7 @@ class OktaSdkBridge: RCTEventEmitter {
     }
     
     @objc
-    func authenticateWithAccessToken(_ accessToken: String, expirationDate: String) {
+    func authenticateWithAccessToken(_ authState: String) {
         guard let _ = config, let currOktaOidc = oktaOidc else {
             let error = OktaReactNativeError.notConfigured
             let errorDic = [
@@ -199,22 +199,13 @@ class OktaSdkBridge: RCTEventEmitter {
             return
         }
         
-        guard let currStateManager = stateManager else {
-            let error = OktaReactNativeError.noStateManager
-            let errorDic = [
-                OktaSdkConstant.ERROR_CODE_KEY: error.errorCode,
-                OktaSdkConstant.ERROR_MSG_KEY: error.errorDescription
-            ]
-            self.sendEvent(withName: OktaSdkConstant.ON_ERROR, body: errorDic)
-            return
-        }
+        let currStateManager = OktaOidcStateManager(authState)
         
-        currStateManager.authState.accessToken = accessToken
-
         currStateManager.writeToSecureStorage()
+        
         let dic = [
             OktaSdkConstant.RESOLVE_TYPE_KEY: OktaSdkConstant.AUTHORIZED,
-            OktaSdkConstant.ACCESS_TOKEN_KEY: stateManager?.accessToken
+            OktaSdkConstant.ACCESS_TOKEN_KEY: currStateManager?.accessToken
         ]
 
         self.sendEvent(withName: OktaSdkConstant.SIGN_IN_SUCCESS, body: dic)
